@@ -77,7 +77,7 @@ const MenuSection: React.FC<MenuSectionProps> = ({
               className="flex gap-8 group cursor-pointer"
               onClick={() => onOpenProduct(item)}
               layout
-                transition={{ duration: 0.75, ease: "linear" }}
+              transition={{ duration: 0.75, ease: "linear" }}
             >
               <div className="w-32 h-32 md:w-48 md:h-48 flex-shrink-0 rounded-2xl overflow-hidden border border-zinc-800 bg-zinc-900">
                 <img
