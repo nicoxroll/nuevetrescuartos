@@ -30,10 +30,14 @@ const Header: React.FC<HeaderProps> = ({ scrolled, cartCount, onOpenCart }) => {
       const elementPosition = elementRect - bodyRect;
       const offsetPosition = elementPosition - offset;
 
-      window.scrollTo({
-        top: offsetPosition,
-        behavior: 'smooth'
-      });
+      if (window.lenis) {
+        window.lenis.scrollTo(offsetPosition);
+      } else {
+        window.scrollTo({
+          top: offsetPosition,
+          behavior: 'smooth'
+        });
+      }
     }
   };
 
@@ -42,7 +46,7 @@ const Header: React.FC<HeaderProps> = ({ scrolled, cartCount, onOpenCart }) => {
       <header className={`fixed top-0 w-full z-[1000] transition-all duration-500 ${scrolled ? 'bg-[#1a1a1a]/95 backdrop-blur-md h-20 border-b border-white/10 shadow-xl' : 'bg-transparent h-24'}`}>
         <div className="max-w-7xl mx-auto px-6 h-full flex items-center justify-between">
           {/* Logo & Brand */}
-          <div className="flex items-center gap-4 cursor-pointer group" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>
+          <div className="flex items-center gap-4 cursor-pointer group" onClick={() => window.lenis ? window.lenis.scrollTo(0) : window.scrollTo({ top: 0, behavior: 'smooth' })}>
             <div className="w-12 h-12 md:w-16 md:h-16 bg-white rounded-full flex items-center justify-center border-2 border-black overflow-hidden shadow-2xl scale-105">
               <img 
                 src="https://storage.googleapis.com/pod_public/800webp/85994.webp" 

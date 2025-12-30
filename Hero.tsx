@@ -1,7 +1,29 @@
 
-import React from 'react';
+import React, { useState } from 'react';
 
 const Hero: React.FC = () => {
+  const [isHovered, setIsHovered] = useState(false);
+
+  const handleScrollToMenu = () => {
+    const element = document.querySelector("#menu");
+    if (element) {
+      const offset = 80; // height of header
+      const bodyRect = document.body.getBoundingClientRect().top;
+      const elementRect = element.getBoundingClientRect().top;
+      const elementPosition = elementRect - bodyRect;
+      const offsetPosition = elementPosition - offset;
+
+      if (window.lenis) {
+        window.lenis.scrollTo(offsetPosition);
+      } else {
+        window.scrollTo({
+          top: offsetPosition,
+          behavior: 'smooth'
+        });
+      }
+    }
+  };
+
   return (
     <section id="home" className="relative h-screen flex items-center justify-center overflow-hidden">
       <div className="absolute inset-0 z-0">
@@ -10,7 +32,7 @@ const Hero: React.FC = () => {
           className="w-full h-full object-cover grayscale brightness-[0.4]"
           alt="Monumento Águila Plaza Italia"
         />
-        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[#121212]/30 to-[#121212]"></div>
+        <div className={`absolute inset-0 bg-gradient-to-b from-transparent via-[#121212]/30 to-[#121212] transition-opacity duration-700 ${isHovered ? 'opacity-0' : 'opacity-100'}`}></div>
       </div>
       
       <div className="relative z-10 text-center px-4 max-w-5xl">
@@ -26,10 +48,15 @@ const Hero: React.FC = () => {
           La Plata
         </p>
         <div className="flex justify-center">
-          <a href="#menu" className="group flex flex-col items-center gap-4 text-white/50 hover:text-white transition-colors">
+          <button 
+            onClick={handleScrollToMenu}
+            onMouseEnter={() => setIsHovered(true)}
+            onMouseLeave={() => setIsHovered(false)}
+            className="group flex flex-col items-center gap-4 text-white/50 hover:text-white transition-colors cursor-pointer"
+          >
             <span className="text-xs uppercase tracking-[0.3em] font-industrial">Descender al andén</span>
             <div className="w-px h-16 bg-white/20 group-hover:bg-white/50 transition-all"></div>
-          </a>
+          </button>
         </div>
       </div>
     </section>

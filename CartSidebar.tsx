@@ -58,9 +58,9 @@ const CartSidebar: React.FC<CartSidebarProps> = ({
   };
 
   return (
-    <div className={`fixed inset-0 z-50 transition-opacity duration-500 ${isOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}>
-      <div className="absolute inset-0 bg-black/90 backdrop-blur-xl" onClick={onClose} />
-      <div className={`absolute right-0 top-0 h-full w-full max-w-md bg-zinc-950 border-l border-white/5 transition-transform duration-500 transform ${isOpen ? 'translate-x-0' : 'translate-x-full'}`}>
+    <div className={`fixed inset-0 z-[1100] transition-all duration-700 ease-out ${isOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}>
+      <div className="absolute inset-0 bg-black/90" onClick={onClose} />
+      <div className={`absolute right-0 top-0 h-full w-full max-w-md bg-zinc-950 border-l border-white/5 transition-transform duration-700 ease-out transform ${isOpen ? 'translate-x-0' : 'translate-x-full'}`}>
         <div className="flex flex-col h-full overflow-hidden">
           <div className="p-6 md:p-8 flex items-center justify-between border-b border-white/5">
             <div className="flex items-center gap-4">

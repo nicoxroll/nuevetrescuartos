@@ -13,9 +13,9 @@ const ProductModal: React.FC<ProductModalProps> = ({ product, onClose, onAddToCa
   const [note, setNote] = useState('');
 
   return (
-    <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
-      <div className="absolute inset-0 bg-black/90 backdrop-blur-md" onClick={onClose} />
-      <div className="relative w-full max-w-2xl max-h-[90dvh] bg-zinc-950 border border-white/10 rounded-[2rem] md:rounded-[2.5rem] overflow-hidden shadow-2xl animate-in zoom-in-95 duration-300 flex flex-col">
+    <div className="fixed inset-0 z-[1200] flex items-center justify-center p-4 transition-all duration-700 ease-out">
+      <div className="absolute inset-0 bg-black/90" onClick={onClose} />
+      <div className="relative w-full max-w-2xl max-h-[90dvh] bg-zinc-950 border border-white/10 rounded-[2rem] md:rounded-[2.5rem] overflow-hidden shadow-2xl animate-in fade-in zoom-in-95 duration-700 ease-out flex flex-col">
         <button onClick={onClose} className="absolute top-4 right-4 md:top-6 md:right-6 z-20 p-2 text-gray-500 hover:text-white transition-colors bg-black/50 rounded-full">
           <X className="w-5 h-5 md:w-6 md:h-6" />
         </button>

@@ -1,5 +1,6 @@
 
 import React, { useState, useMemo, useEffect } from 'react';
+import Lenis from 'lenis';
 import { MENU } from './constants';
 import { CartItem, Product, Category } from './types';
 import Header from './Header';
@@ -11,6 +12,12 @@ import Footer from './Footer';
 import CartSidebar from './CartSidebar';
 import ProductModal from './ProductModal';
 import FloatingChat from './FloatingChat';
+
+declare global {
+  interface Window {
+    lenis: any;
+  }
+}
 
 const App: React.FC = () => {
   const [cart, setCart] = useState<CartItem[]>([]);
@@ -24,6 +31,30 @@ const App: React.FC = () => {
     const handleScroll = () => setScrolled(window.scrollY > 50);
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  useEffect(() => {
+    const lenis = new Lenis({
+      duration: 1.5,
+      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+      orientation: "vertical",
+      gestureOrientation: "vertical",
+      smoothWheel: true,
+    });
+
+    window.lenis = lenis;
+
+    function raf(time: number) {
+      lenis.raf(time);
+      requestAnimationFrame(raf);
+    }
+
+    requestAnimationFrame(raf);
+
+    return () => {
+      lenis.destroy();
+      window.lenis = null;
+    };
   }, []);
 
   const addToCart = (product: Product, note: string) => {

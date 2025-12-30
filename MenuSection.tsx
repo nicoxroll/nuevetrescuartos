@@ -1,6 +1,7 @@
 
 import React from 'react';
 import { Plus } from 'lucide-react';
+import { motion } from 'framer-motion';
 import { Product, Category } from './types';
 
 interface MenuSectionProps {
@@ -33,7 +34,7 @@ const MenuSection: React.FC<MenuSectionProps> = ({ products, selectedCategory, o
               <button
                 key={cat}
                 onClick={() => onSelectCategory(cat)}
-                className={`px-10 py-2 font-industrial text-sm font-bold uppercase tracking-[0.3em] transition-all border-b-2 ${
+                className={`px-10 py-2 font-industrial text-sm font-bold uppercase tracking-[0.3em] transition-all duration-500 ease-out border-b-2 ${
                   selectedCategory === cat 
                   ? 'border-white text-white' 
                   : 'border-transparent text-gray-600 hover:text-white hover:border-white/30'
@@ -45,9 +46,18 @@ const MenuSection: React.FC<MenuSectionProps> = ({ products, selectedCategory, o
           </div>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-x-16 gap-y-16">
+        <motion.div 
+          className="grid grid-cols-1 md:grid-cols-2 gap-x-16 gap-y-16"
+          layout
+        >
           {products.map(item => (
-            <div key={item.id} className="flex gap-8 group cursor-pointer" onClick={() => onOpenProduct(item)}>
+              <motion.div 
+                key={item.id} 
+                className="flex gap-8 group cursor-pointer" 
+                onClick={() => onOpenProduct(item)}
+                layout
+                transition={{ duration: 0.5, ease: "easeOut" }}
+              >
               <div className="w-32 h-32 md:w-48 md:h-48 flex-shrink-0 rounded-2xl overflow-hidden border border-zinc-800 bg-zinc-900">
                 <img src={item.image} alt={item.name} className="w-full h-full object-cover grayscale transition-all duration-700 group-hover:grayscale-0 group-hover:scale-110" />
               </div>
@@ -69,9 +79,9 @@ const MenuSection: React.FC<MenuSectionProps> = ({ products, selectedCategory, o
                   <Plus className="w-4 h-4" /> AGREGAR
                 </button>
               </div>
-            </div>
-          ))}
-        </div>
+              </motion.div>
+            ))}
+        </motion.div>
       </div>
     </section>
   );
