@@ -10,6 +10,7 @@ import MapSection from './MapSection';
 import Footer from './Footer';
 import CartSidebar from './CartSidebar';
 import ProductModal from './ProductModal';
+import FloatingChat from './FloatingChat';
 
 const App: React.FC = () => {
   const [cart, setCart] = useState<CartItem[]>([]);
@@ -109,6 +110,8 @@ const App: React.FC = () => {
           onAddToCart={addToCart} 
         />
       )}
+
+      <FloatingChat />
     </div>
   );
 };

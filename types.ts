@@ -24,6 +24,11 @@ export interface CheckoutFormData {
   extraDescription: string;
 }
 
+export interface ChatMessage {
+  role: 'user' | 'model';
+  text: string;
+}
+
 export interface AppState {
   cart: CartItem[];
   isCartOpen: boolean;
