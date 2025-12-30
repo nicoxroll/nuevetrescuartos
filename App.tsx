@@ -1,17 +1,16 @@
-
-import React, { useState, useMemo, useEffect } from 'react';
-import Lenis from 'lenis';
-import { MENU } from './constants';
-import { CartItem, Product, Category } from './types';
-import Header from './Header';
-import Hero from './Hero';
-import DeliverySection from './DeliverySection';
-import MenuSection from './MenuSection';
-import MapSection from './MapSection';
-import Footer from './Footer';
-import CartSidebar from './CartSidebar';
-import ProductModal from './ProductModal';
-import FloatingChat from './FloatingChat';
+import Lenis from "lenis";
+import React, { useEffect, useMemo, useState } from "react";
+import CartSidebar from "./CartSidebar";
+import { MENU } from "./constants";
+import DeliverySection from "./DeliverySection";
+import FloatingChat from "./FloatingChat";
+import Footer from "./Footer";
+import Header from "./Header";
+import Hero from "./Hero";
+import MapSection from "./MapSection";
+import MenuSection from "./MenuSection";
+import ProductModal from "./ProductModal";
+import { CartItem, Category, Product } from "./types";
 
 declare global {
   interface Window {
@@ -23,14 +22,16 @@ const App: React.FC = () => {
   const [cart, setCart] = useState<CartItem[]>([]);
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [isCheckoutFormOpen, setIsCheckoutFormOpen] = useState(false);
-  const [selectedCategory, setSelectedCategory] = useState<Category | 'all'>('all');
+  const [selectedCategory, setSelectedCategory] = useState<Category | "all">(
+    "all"
+  );
   const [scrolled, setScrolled] = useState(false);
   const [modalProduct, setModalProduct] = useState<Product | null>(null);
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 50);
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
   useEffect(() => {
@@ -58,12 +59,12 @@ const App: React.FC = () => {
   }, []);
 
   const addToCart = (product: Product, note: string) => {
-    setCart(prev => {
-      const existing = prev.find(item => item.id === product.id);
+    setCart((prev) => {
+      const existing = prev.find((item) => item.id === product.id);
       if (existing) {
-        return prev.map(item =>
-          item.id === product.id 
-            ? { ...item, quantity: item.quantity + 1, note: note || item.note } 
+        return prev.map((item) =>
+          item.id === product.id
+            ? { ...item, quantity: item.quantity + 1, note: note || item.note }
             : item
         );
       }
@@ -74,47 +75,62 @@ const App: React.FC = () => {
   };
 
   const removeFromCart = (productId: string) => {
-    setCart(prev => prev.filter(item => item.id !== productId));
+    setCart((prev) => prev.filter((item) => item.id !== productId));
   };
 
   const updateQuantity = (productId: string, delta: number) => {
-    setCart(prev => prev.map(item => {
-      if (item.id === productId) {
-        return { ...item, quantity: Math.max(1, item.quantity + delta) };
-      }
-      return item;
-    }));
+    setCart((prev) =>
+      prev.map((item) => {
+        if (item.id === productId) {
+          return { ...item, quantity: Math.max(1, item.quantity + delta) };
+        }
+        return item;
+      })
+    );
   };
 
   const updateNote = (productId: string, note: string) => {
-    setCart(prev => prev.map(item => 
-      item.id === productId ? { ...item, note } : item
-    ));
+    setCart((prev) =>
+      prev.map((item) => (item.id === productId ? { ...item, note } : item))
+    );
   };
 
-  const filteredMenu = useMemo(() => 
-    selectedCategory === 'all' ? MENU : MENU.filter(item => item.category === selectedCategory),
-  [selectedCategory]);
+  const filteredMenu = useMemo(
+    () =>
+      selectedCategory === "all"
+        ? MENU
+        : MENU.filter((item) => item.category === selectedCategory),
+    [selectedCategory]
+  );
 
-  const cartCount = useMemo(() => cart.reduce((acc, item) => acc + item.quantity, 0), [cart]);
-  const cartTotal = useMemo(() => cart.reduce((acc, item) => acc + (item.price * item.quantity), 0), [cart]);
+  const cartCount = useMemo(
+    () => cart.reduce((acc, item) => acc + item.quantity, 0),
+    [cart]
+  );
+  const cartTotal = useMemo(
+    () => cart.reduce((acc, item) => acc + item.price * item.quantity, 0),
+    [cart]
+  );
 
   return (
     <div className="min-h-screen bg-[#121212] text-gray-200 selection:bg-white selection:text-black">
-      <Header 
-        scrolled={scrolled} 
-        cartCount={cartCount} 
-        onOpenCart={() => { setIsCartOpen(true); setIsCheckoutFormOpen(false); }} 
+      <Header
+        scrolled={scrolled}
+        cartCount={cartCount}
+        onOpenCart={() => {
+          setIsCartOpen(true);
+          setIsCheckoutFormOpen(false);
+        }}
       />
-      
+
       <main>
         <Hero />
         <DeliverySection />
-        <MenuSection 
-          products={filteredMenu} 
-          selectedCategory={selectedCategory} 
-          onSelectCategory={setSelectedCategory} 
-          onOpenProduct={setModalProduct} 
+        <MenuSection
+          products={filteredMenu}
+          selectedCategory={selectedCategory}
+          onSelectCategory={setSelectedCategory}
+          onOpenProduct={setModalProduct}
           onAddToCartDirectly={addToCart}
         />
         <MapSection />
@@ -122,7 +138,7 @@ const App: React.FC = () => {
 
       <Footer />
 
-      <CartSidebar 
+      <CartSidebar
         isOpen={isCartOpen}
         onClose={() => setIsCartOpen(false)}
         cart={cart}
@@ -135,10 +151,10 @@ const App: React.FC = () => {
       />
 
       {modalProduct && (
-        <ProductModal 
-          product={modalProduct} 
-          onClose={() => setModalProduct(null)} 
-          onAddToCart={addToCart} 
+        <ProductModal
+          product={modalProduct}
+          onClose={() => setModalProduct(null)}
+          onAddToCart={addToCart}
         />
       )}
 
