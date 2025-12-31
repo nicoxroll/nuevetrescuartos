@@ -63,8 +63,12 @@ const MenuSection: React.FC<MenuSectionProps> = ({
   }, [selectedCategory]);
 
   return (
-    <section id="menu" ref={sectionRef} className="relative py-24 bg-[#0c0c0c] overflow-hidden w-full">
-      <motion.div 
+    <section
+      id="menu"
+      ref={sectionRef}
+      className="relative py-24 bg-[#0c0c0c] overflow-hidden w-full"
+    >
+      <motion.div
         style={{ y }}
         className="absolute inset-0 z-0 opacity-5 grayscale pointer-events-none h-[120%] -top-[10%] w-full"
       >
