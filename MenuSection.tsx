@@ -1,3 +1,4 @@
+import { motion, useScroll, useTransform } from "framer-motion";
 import Isotope from "isotope-layout";
 import { Plus } from "lucide-react";
 import React, { useEffect, useRef } from "react";
@@ -20,6 +21,14 @@ const MenuSection: React.FC<MenuSectionProps> = ({
 }) => {
   const isotopeRef = useRef<HTMLDivElement>(null);
   const isotopeInstance = useRef<Isotope | null>(null);
+  const sectionRef = useRef<HTMLElement>(null);
+
+  const { scrollYProgress } = useScroll({
+    target: sectionRef,
+    offset: ["start end", "end start"],
+  });
+
+  const y = useTransform(scrollYProgress, [0, 1], ["-10%", "10%"]);
 
   const categories: (Category | "all")[] = [
     "all",
@@ -54,14 +63,17 @@ const MenuSection: React.FC<MenuSectionProps> = ({
   }, [selectedCategory]);
 
   return (
-    <section id="menu" className="relative py-24 bg-[#0c0c0c] overflow-hidden">
-      <div className="absolute inset-0 z-0 opacity-5 grayscale pointer-events-none h-full">
+    <section id="menu" ref={sectionRef} className="relative py-24 bg-[#0c0c0c] overflow-hidden w-full">
+      <motion.div 
+        style={{ y }}
+        className="absolute inset-0 z-0 opacity-5 grayscale pointer-events-none h-[120%] -top-[10%] w-full"
+      >
         <img
           src="https://images.pexels.com/photos/933849/pexels-photo-933849.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
           alt="Station background"
           className="w-full h-full object-cover"
         />
-      </div>
+      </motion.div>
 
       <div className="relative z-10 max-w-7xl mx-auto px-6">
         <div className="text-center mb-20">

@@ -1,7 +1,14 @@
-import React, { useState } from "react";
+import { motion, useScroll, useTransform } from "framer-motion";
+import React, { useRef, useState } from "react";
 
 const Hero: React.FC = () => {
   const [isHovered, setIsHovered] = useState(false);
+  const ref = useRef<HTMLElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: ref,
+    offset: ["start start", "end start"],
+  });
+  const y = useTransform(scrollYProgress, [0, 1], ["0%", "50%"]);
 
   const handleScrollToMenu = () => {
     const element = document.querySelector("#menu");
@@ -26,9 +33,10 @@ const Hero: React.FC = () => {
   return (
     <section
       id="home"
-      className="relative h-screen flex items-center justify-center overflow-hidden"
+      ref={ref}
+      className="relative h-screen flex items-center justify-center overflow-hidden w-full"
     >
-      <div className="absolute inset-0 z-0">
+      <motion.div style={{ y }} className="absolute inset-0 z-0 w-full h-full">
         <img
           src="https://media.0221.com.ar/p/a7aff82c9bd709250de67477ba23c4f7/adjuntos/357/imagenes/100/161/0100161528/1400x0/smart/plaza-italia-monumento-aguila2jpg.jpg"
           className="w-full h-full object-cover grayscale brightness-[0.4]"
@@ -39,7 +47,7 @@ const Hero: React.FC = () => {
             isHovered ? "opacity-0" : "opacity-100"
           }`}
         ></div>
-      </div>
+      </motion.div>
 
       <div className="relative z-10 text-center px-4 max-w-5xl">
         <div className="flex items-center justify-center mb-6 select-none animate-in fade-in slide-in-from-bottom-10 duration-1000">
