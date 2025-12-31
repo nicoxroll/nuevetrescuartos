@@ -113,7 +113,7 @@ const App: React.FC = () => {
   );
 
   return (
-    <div className="min-h-screen bg-[#121212] text-gray-200 selection:bg-white selection:text-black">
+    <div className="relative min-h-screen bg-[#121212] text-gray-200 selection:bg-white selection:text-black">
       <Header
         scrolled={scrolled}
         cartCount={cartCount}
@@ -127,7 +127,7 @@ const App: React.FC = () => {
         <Hero />
         <DeliverySection />
         <MenuSection
-          products={filteredMenu}
+          products={MENU}
           selectedCategory={selectedCategory}
           onSelectCategory={setSelectedCategory}
           onOpenProduct={setModalProduct}

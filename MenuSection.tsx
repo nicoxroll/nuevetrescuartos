@@ -1,6 +1,6 @@
-import { motion } from "framer-motion";
+import Isotope from "isotope-layout";
 import { Plus } from "lucide-react";
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import { Category, Product } from "./types";
 
 interface MenuSectionProps {
@@ -18,6 +18,9 @@ const MenuSection: React.FC<MenuSectionProps> = ({
   onOpenProduct,
   onAddToCartDirectly,
 }) => {
+  const isotopeRef = useRef<HTMLDivElement>(null);
+  const isotopeInstance = useRef<Isotope | null>(null);
+
   const categories: (Category | "all")[] = [
     "all",
     "burgers",
@@ -26,9 +29,35 @@ const MenuSection: React.FC<MenuSectionProps> = ({
     "desserts",
   ];
 
+  useEffect(() => {
+    if (isotopeRef.current) {
+      isotopeInstance.current = new Isotope(isotopeRef.current, {
+        itemSelector: ".menu-item",
+        layoutMode: "fitRows",
+        filter: selectedCategory === "all" ? "*" : `.${selectedCategory}`,
+      });
+    }
+
+    return () => {
+      if (isotopeInstance.current) {
+        isotopeInstance.current.destroy();
+      }
+    };
+  }, [products]);
+
+  useEffect(() => {
+    if (isotopeInstance.current) {
+      const filterValue =
+        selectedCategory === "all" ? "*" : `.${selectedCategory}`;
+      isotopeInstance.current.arrange({ filter: filterValue });
+    }
+  }, [selectedCategory]);
+
   return (
-    <section id="menu" className="relative py-24 bg-[#0c0c0c]">
-      <div className="absolute inset-0 z-0 opacity-5 grayscale pointer-events-none">
+    <section id="menu" className="relative py-24 bg-[#0c0c0c] overflow-hidden">
+      <div 
+        className="absolute inset-0 z-0 opacity-5 grayscale pointer-events-none h-full"
+      >
         <img
           src="https://images.pexels.com/photos/933849/pexels-photo-933849.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
           alt="Station background"
@@ -67,17 +96,12 @@ const MenuSection: React.FC<MenuSectionProps> = ({
           </div>
         </div>
 
-        <motion.div
-          className="grid grid-cols-1 md:grid-cols-2 gap-x-16 gap-y-16"
-          layout
-        >
+        <div ref={isotopeRef} className="menu-container">
           {products.map((item) => (
-            <motion.div
+            <div
               key={item.id}
-              className="flex gap-8 group cursor-pointer"
+              className={`menu-item ${item.category} flex gap-8 group cursor-pointer`}
               onClick={() => onOpenProduct(item)}
-              layout
-              transition={{ duration: 0.75, ease: "linear" }}
             >
               <div className="w-32 h-32 md:w-48 md:h-48 flex-shrink-0 rounded-2xl overflow-hidden border border-zinc-800 bg-zinc-900">
                 <img
@@ -108,9 +132,9 @@ const MenuSection: React.FC<MenuSectionProps> = ({
                   <Plus className="w-4 h-4" /> AGREGAR
                 </button>
               </div>
-            </motion.div>
+            </div>
           ))}
-        </motion.div>
+        </div>
       </div>
     </section>
   );

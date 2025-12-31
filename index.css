@@ -1,0 +1,51 @@
+@import "tailwindcss";
+
+
+body {
+    font-family: 'Montserrat', sans-serif;
+    background-color: #121212;
+    color: #e5e7eb;
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+    position: relative;
+}
+.font-pistilli {
+    font-family: 'Bodoni Moda', serif;
+    letter-spacing: -0.05em;
+}
+.font-industrial {
+    font-family: 'Oswald', sans-serif;
+}
+.grayscale-map .leaflet-tile {
+    filter: grayscale(100%) invert(100%) brightness(95%) contrast(90%);
+}
+.leaflet-container {
+    background: #111 !important;
+}
+.leaflet-control-attribution {
+    display: none !important;
+}
+::-webkit-scrollbar {
+    width: 8px;
+}
+::-webkit-scrollbar-track {
+    background: #121212;
+}
+::-webkit-scrollbar-thumb {
+    background: #4a4a4a;
+    border-radius: 4px;
+}
+.menu-container {
+    /* Isotope handles layout */
+}
+.menu-item {
+    width: 50%;
+    padding: 0 1rem;
+    margin-bottom: 4rem;
+}
+@media (max-width: 768px) {
+    .menu-item {
+        width: 100%;
+    }
+}
