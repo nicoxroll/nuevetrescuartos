@@ -55,9 +55,7 @@ const MenuSection: React.FC<MenuSectionProps> = ({
 
   return (
     <section id="menu" className="relative py-24 bg-[#0c0c0c] overflow-hidden">
-      <div 
-        className="absolute inset-0 z-0 opacity-5 grayscale pointer-events-none h-full"
-      >
+      <div className="absolute inset-0 z-0 opacity-5 grayscale pointer-events-none h-full">
         <img
           src="https://images.pexels.com/photos/933849/pexels-photo-933849.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
           alt="Station background"
