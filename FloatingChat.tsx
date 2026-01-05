@@ -25,6 +25,7 @@ const FloatingChat: React.FC = () => {
   ]);
   const [input, setInput] = useState('');
   const messagesEndRef = useRef<HTMLDivElement>(null);
+  const chatRef = useRef<HTMLDivElement>(null);
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -33,6 +34,22 @@ const FloatingChat: React.FC = () => {
   useEffect(() => {
     if (isOpen) scrollToBottom();
   }, [messages, isOpen]);
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (chatRef.current && !chatRef.current.contains(event.target as Node)) {
+        setIsOpen(false);
+      }
+    };
+
+    if (isOpen) {
+      document.addEventListener('mousedown', handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [isOpen]);
 
   const handleSend = () => {
     if (!input.trim()) return;
@@ -50,7 +67,7 @@ const FloatingChat: React.FC = () => {
   };
 
   return (
-    <div className="fixed bottom-6 right-6 z-[1000] flex flex-col items-end">
+    <div ref={chatRef} className="fixed bottom-6 right-6 z-[1000] flex flex-col items-end">
       <button
         onClick={() => setIsOpen(!isOpen)}
         className="w-14 h-14 md:w-16 md:h-16 bg-white text-black rounded-full shadow-2xl flex items-center justify-center hover:scale-110 transition-transform active:scale-95 border-2 border-black"
